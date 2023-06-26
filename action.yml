@@ -6,6 +6,9 @@ inputs:
   endpoint:
     description: gh-federation lambda endpoint
     required: true
+  repos:
+    description: gh-federation repositories
+    default: ''
 
 runs:
   using: "composite"
@@ -36,3 +39,16 @@ runs:
         git config --global --add credential.helper store
         echo $'protocol=https\nhost=github.com\nusername=x-access-token\npassword='"${GH_FEDERATION_ACCESS_TOKEN}"$'\n' | \
           git credential-store store
+
+    - name: Store access token for repos as extraheader
+      if: inputs.repos != ''
+      shell: bash
+      env:
+        REPOS: ${{ inputs.repos }}
+      run: |
+        TOKEN=$(echo -n "x-access-token:${GH_FEDERATION_ACCESS_TOKEN}" | base64)
+        echo "::add-mask::${TOKEN}"
+        for repo in ${REPOS}; do
+          echo "config extraheader for ${repo}"
+          git config --global "http.https://github.com/${repo}.extraheader" "Authorization: Basic ${TOKEN}"
+        done
