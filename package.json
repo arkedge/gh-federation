@@ -1,0 +1,37 @@
+{
+  "name": "gh-federation",
+  "version": "1.0.0",
+  "repository": "git@github.com:arkedge/gh-federation.git",
+  "author": "Hidekazu Kobayashi <koba789@arkedgespace.com>",
+  "license": "MIT",
+  "scripts": {
+    "build:vite": "esbuild src/index.ts --bundle --format=cjs --platform=node --outfile=dist/app.js",
+    "build": "run-s build:vite",
+    "dev:esbuild": "yarn build:vite -- --watch",
+    "dev:lambda": "aws-lambda-rie npx aws-lambda-ric dist/app.handler",
+    "dev": "run-p dev:*",
+    "typecheck": "tsc",
+    "lint:prettier": "prettier . --check",
+    "lint:eslint": "eslint . --format stylish",
+    "lint": "run-p lint:*",
+    "fix:prettier": "yarn lint:prettier --write",
+    "fix:eslint": "yarn lint:eslint --fix",
+    "fix": "run-s fix:eslint fix:prettier"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.106",
+    "@types/node": "^18.7.23",
+    "@typescript-eslint/eslint-plugin": "5.60.0",
+    "@typescript-eslint/parser": "5.60.0",
+    "esbuild": "^0.18.0",
+    "eslint": "8.43.0",
+    "eslint-config-prettier": "8.8.0",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.8.8",
+    "typescript": "4.9.5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.180.0",
+    "@octokit/auth-app": "^4.0.5"
+  }
+}
