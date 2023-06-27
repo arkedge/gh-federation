@@ -50,5 +50,5 @@ runs:
         echo "::add-mask::${TOKEN}"
         for repo in ${REPOS}; do
           echo "config extraheader for ${repo}"
-          git config --global "http.https://github.com/${repo}.extraheader" "Authorization: Basic ${TOKEN}"
+          git config --global "http.${GITHUB_SERVER_URL}/${repo}.extraheader" "Authorization: Basic ${TOKEN}"
         done
