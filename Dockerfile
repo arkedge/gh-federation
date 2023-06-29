@@ -8,7 +8,7 @@ RUN yarn
 COPY . /app
 RUN yarn lint && yarn typecheck && yarn build
 
-FROM public.ecr.aws/lambda/nodejs:16
+FROM public.ecr.aws/lambda/nodejs:18
 
 COPY --from=builder /app/dist/app.js ${LAMBDA_TASK_ROOT}
 
