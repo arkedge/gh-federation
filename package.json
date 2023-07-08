@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.180.0",
-    "@octokit/auth-app": "^4.0.5"
+    "@octokit/auth-app": "^6.0.0"
   }
 }
