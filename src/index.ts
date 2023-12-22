@@ -32,7 +32,7 @@ async function getAppSecret(secretId: string): Promise<AppSecret> {
   const data = await secretmanager.send(
     new GetSecretValueCommand({
       SecretId: secretId,
-    })
+    }),
   );
   const secretString = data.SecretString!;
   return JSON.parse(secretString);
