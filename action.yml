@@ -6,6 +6,9 @@ inputs:
   endpoint:
     description: gh-federation lambda endpoint
     required: true
+  retry_max:
+    description: max retry count
+    default: "5"
   repos:
     description: gh-federation repositories
     default: ""
@@ -16,21 +19,31 @@ runs:
     - uses: actions/github-script@v6
       env:
         GH_FEDERATION_ENDPOINT: ${{ inputs.endpoint }}
+        RETRY_MAX: ${{ inputs.retry_max }}
       with:
         script: |
+          const RETRY_MAX = parseInt(process.env["RETRY_MAX"], 10);
           const idToken = await core.getIDToken();
           const hook = (request, route) => {
             const endpoint = request.endpoint.merge(route);
             endpoint.headers.authorization = `Bearer ${idToken}`;
             return request(endpoint);
           };
-          const { data } = await github.request("POST /token", {
-            baseUrl: process.env["GH_FEDERATION_ENDPOINT"],
-            request: { hook },
-          });
-          const accessToken = data["token"];
-          core.setSecret(accessToken);
-          core.exportVariable("GH_FEDERATION_ACCESS_TOKEN", accessToken);
+
+          for (let i = 0; i < RETRY_MAX; ++i) {
+            try {
+              const { data } = await github.request("POST /token", {
+                baseUrl: process.env["GH_FEDERATION_ENDPOINT"],
+                request: { hook },
+              });
+              const accessToken = data["token"];
+              core.setSecret(accessToken);
+              core.exportVariable("GH_FEDERATION_ACCESS_TOKEN", accessToken);
+              break;
+            } catch (e) {
+              continue;
+            }
+          }
 
     - name: Store access token
       shell: bash
