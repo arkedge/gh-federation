@@ -19,4 +19,4 @@ jobs:
         uses: docker/setup-buildx-action@v3.0.0
 
       - name: Check & Build
-        uses: docker/build-push-action@v5.0.0
+        uses: docker/build-push-action@v5.1.0
