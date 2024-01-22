@@ -41,6 +41,7 @@ runs:
               core.exportVariable("GH_FEDERATION_ACCESS_TOKEN", accessToken);
               break;
             } catch (e) {
+              console.log(`retrying (remain: ${RETRY_MAX - i})...`);
               continue;
             }
           }
