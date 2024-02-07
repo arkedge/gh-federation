@@ -39,12 +39,14 @@ runs:
               const accessToken = data["token"];
               core.setSecret(accessToken);
               core.exportVariable("GH_FEDERATION_ACCESS_TOKEN", accessToken);
-              break;
+              return;
             } catch (e) {
               console.log(`retrying (remain: ${RETRY_MAX - i})...`);
               continue;
             }
           }
+
+          core.setFailed('The request was not successful')
 
     - name: Store access token
       shell: bash
