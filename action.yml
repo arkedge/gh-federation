@@ -23,6 +23,14 @@ runs:
       with:
         script: |
           const RETRY_MAX = parseInt(process.env["RETRY_MAX"], 10);
+
+          const GH_FEDERATION_ENDPOINT = process.env["GH_FEDERATION_ENDPOINT"];
+          // Check whether the `endpoint` is set.
+          if (GH_FEDERATION_ENDPOINT.length == 0) {
+            core.setFailed('The input `endpoint` is empty. It must be set.');
+            return;
+          }
+
           const idToken = await core.getIDToken();
           const hook = (request, route) => {
             const endpoint = request.endpoint.merge(route);
@@ -33,7 +41,7 @@ runs:
           for (let i = 0; i < RETRY_MAX; ++i) {
             try {
               const { data } = await github.request("POST /token", {
-                baseUrl: process.env["GH_FEDERATION_ENDPOINT"],
+                baseUrl: GH_FEDERATION_ENDPOINT,
                 request: { hook },
               });
               const accessToken = data["token"];
