@@ -1,6 +1,6 @@
 {
   "name": "gh-federation",
-  "version": "1.0.0",
+  "version": "4.0.1",
   "repository": "git@github.com:arkedge/gh-federation.git",
   "author": "Hidekazu Kobayashi <koba789@arkedgespace.com>",
   "license": "MIT",
