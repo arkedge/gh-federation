@@ -1,4 +1,4 @@
-FROM node:20-slim as builder
+FROM node:24-slim as builder
 
 RUN corepack enable
 
@@ -10,7 +10,7 @@ RUN pnpm install --frozen-lockfile
 COPY . /app
 RUN pnpm lint && pnpm typecheck && pnpm build
 
-FROM public.ecr.aws/lambda/nodejs:20
+FROM public.ecr.aws/lambda/nodejs:24
 
 COPY --from=builder /app/dist/app.js ${LAMBDA_TASK_ROOT}
 
