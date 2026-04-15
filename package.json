@@ -7,15 +7,15 @@
   "scripts": {
     "build:vite": "esbuild src/index.ts --bundle --format=cjs --platform=node --outfile=dist/app.js",
     "build": "run-s build:vite",
-    "dev:esbuild": "yarn build:vite -- --watch",
+    "dev:esbuild": "pnpm build:vite -- --watch",
     "dev:lambda": "aws-lambda-rie npx aws-lambda-ric dist/app.handler",
     "dev": "run-p dev:*",
     "typecheck": "tsc",
     "lint:prettier": "prettier . --check",
     "lint:eslint": "eslint . --format stylish",
     "lint": "run-p lint:*",
-    "fix:prettier": "yarn lint:prettier --write",
-    "fix:eslint": "yarn lint:eslint --fix",
+    "fix:prettier": "pnpm lint:prettier --write",
+    "fix:eslint": "pnpm lint:eslint --fix",
     "fix": "run-s fix:eslint fix:prettier"
   },
   "devDependencies": {

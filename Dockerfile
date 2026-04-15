@@ -1,5 +1,7 @@
 FROM node:20-slim as builder
 
+RUN corepack enable
+
 WORKDIR /app
 COPY package.json /app
 COPY pnpm-lock.yaml /app
