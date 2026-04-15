@@ -3,3 +3,5 @@
 /deploy/
 /crates/*/pkg
 /crates/*/target
+
+pnpm-lock.yaml
