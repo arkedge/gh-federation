@@ -70,7 +70,10 @@ runs:
       env:
         REPOS: ${{ inputs.repos }}
       run: |
-        TOKEN=$(echo -n "x-access-token:${GH_FEDERATION_ACCESS_TOKEN}" | base64)
+        # GNU base64 wraps long output by default, which would leave a newline
+        # inside the Authorization header value. Strip line endings rather than
+        # relying on `base64 -w0`, which is not portable.
+        TOKEN=$(printf '%s' "x-access-token:${GH_FEDERATION_ACCESS_TOKEN}" | base64 | tr -d '\r\n')
         echo "::add-mask::${TOKEN}"
         for repo in ${REPOS}; do
           echo "config extraheader for ${repo}"
