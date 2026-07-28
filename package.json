@@ -4,6 +4,7 @@
   "repository": "git@github.com:arkedge/gh-federation.git",
   "author": "Hidekazu Kobayashi <koba789@arkedgespace.com>",
   "license": "MIT",
+  "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72",
   "scripts": {
     "build:vite": "esbuild src/index.ts --bundle --format=cjs --platform=node --outfile=dist/app.js",
     "build": "run-s build:vite",
